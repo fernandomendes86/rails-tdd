@@ -1,4 +1,4 @@
-describe 'Matchers de comparação' do
+describe 'Matchers de igualdade' do
   x = "ruby"
   y = "ruby"
   it '#equal - Testa objetos iguais' do  
