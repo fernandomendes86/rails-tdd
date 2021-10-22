@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
 
-  fixtures :customers
+  #fixtures :customers
 
   it 'Create a Customer' do
-    customer = customers(:abelao)
+    customer = create(:customer)
     expect(customer.full_name).to eq("Sr. Abelão")
   end
 end
