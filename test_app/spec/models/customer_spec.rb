@@ -4,8 +4,13 @@ RSpec.describe Customer, type: :model do
 
   #fixtures :customers
 
+  it '#full_name - Sobrescrevendo atributos' do
+    customer = create(:customer, name: "Abelão")
+    expect(customer.full_name).to start_with("Sr. Abelão")
+  end
+
   it '#full_name' do
-    customer = create(:customer)
+    customer = create(:user) # com apelidos
     expect(customer.full_name).to start_with("Sr. ")
   end
 
