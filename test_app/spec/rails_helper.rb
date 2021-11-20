@@ -34,15 +34,12 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
 
-  config.before(:suite) do 
-    FactoryBot.lint
-  end
   # FactoryBot
   config.include FactoryBot::Syntax::Methods
 
   # Time Helper
   config.include ActiveSupport::Testing::TimeHelpers
-  
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
