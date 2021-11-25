@@ -1,6 +1,6 @@
 class CustomersController < ApplicationController
   #Devise
-  before_action :autenticate_user!, except: [:index]
+  before_action :authenticate_member!, except: [:index]
 
   before_action :set_customer, only: %i[ show edit update destroy ]
 
