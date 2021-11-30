@@ -16,13 +16,21 @@
 require 'httparty'
 require 'webmock/rspec'
 require 'vcr'
+require 'capybara'
 
 VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
   config.hook_into :webmock
   config.configure_rspec_metadata!
   config.filter_sensitive_data('API-URL') { 'https://jsonplaceholder.typicode.com' }
+  config.ignore_localhost = true
 end
+
+#Capybara com chromium
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new app, browser: :chrome, options: Selenium::WebDriver::Chrome::Options.new(args: %w[headless disable-gpu])
+end
+Capybara.javascript_driver = :chrome
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
