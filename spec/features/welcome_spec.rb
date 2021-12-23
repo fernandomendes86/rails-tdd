@@ -13,4 +13,10 @@ feature "Welcomes", type: :feature do
     expect(find('ul li')).to have_link('Cadastro de Clientes')  
   end
 
+  scenario 'Verifica Formulário de Novo Cliente' do
+    visit(customers_path)
+    click_on('Novo Cliente')
+    expect(page).to have_content('Novo Cliente')
+
+  end
 end

@@ -5,6 +5,7 @@ ruby '2.4.10'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.6'
+gem 'rails-i18n'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
@@ -43,6 +44,11 @@ group :development, :test do
   gem 'capybara'
   # para o bin/rspec {bundle exec spring binstub rspec}
   gem 'spring-commands-rspec'
+  #
+  gem 'faker'
+  #
+ 
+
 end
 
 group :development do
