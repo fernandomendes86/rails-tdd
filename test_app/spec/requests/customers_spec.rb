@@ -7,6 +7,12 @@ RSpec.describe "Customers", type: :request do
       expect(response).to have_http_status(200)
     end
 
+    it "JSON Schema" do
+      get '/customers/1.json'
+      expect(response).to match_response_schema("customer")
+    end
+    
+
     it 'index - JSON' do
       get "/customers.json"
       expect(response).to have_http_status(200)
@@ -25,6 +31,15 @@ RSpec.describe "Customers", type: :request do
         name: (be_kind_of String),
         email: (be_kind_of String)
       )
+    end
+
+    it 'show - JSON - PURO' do
+      get "/customers/1.json"
+      response_body = JSON.parse(response.body)
+      expect(response_body.fetch("id")).to eq(1)
+      expect(response_body.fetch("name")).to be_kind_of(String)
+      expect(response_body.fetch("email")).to be_kind_of(String)
+
     end
 
     it "create - JSON" do
@@ -66,9 +81,19 @@ RSpec.describe "Customers", type: :request do
       ) 
 
     end
-    
-    
 
+    it "Destroy - JSON" do
+      member = create(:member)
+      login_as(member, scope: :member)
+
+      headers = {"ACCEPT" => "application/json"}
+
+      customers = Customer.first
+      id = customers.id
+
+      expect{ delete "/customers/#{id}.json", headers: headers}.to change(Customer, :count).by(-1)
+      expect(response).to have_http_status(204)
+    end
 
   end
 end
