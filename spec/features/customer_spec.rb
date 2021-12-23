@@ -31,4 +31,10 @@ feature "Customers", type: :feature do
 
   end
 
+  scenario 'Não cadastra um cliente inválido' do
+    visit(new_customer_path)
+    click_on 'Criar Cliente'
+    expect(page).to have_content('não pode ficar em branco')
+  end
+
 end
