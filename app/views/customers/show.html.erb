@@ -1,3 +1,7 @@
+<% if flash.notice %>
+  <p><%= flash.notice %></p>
+<% end %>
+<h1>Mostrando cliente</h1>
 <p>
   <%= @customer.name %>
 </p>

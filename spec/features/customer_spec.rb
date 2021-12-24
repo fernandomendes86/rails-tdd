@@ -38,15 +38,7 @@ feature "Customers", type: :feature do
   end
 
   scenario 'Mostra um cliente' do
-    customer = Customer.create!(
-      name: Faker::Name.name,
-      email: Faker::Internet.email,
-      phone: Faker::PhoneNumber.phone_number,
-      smoker: ['S', 'N'].sample,
-      avatar: Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/avatar.png", 'image/png')
-      #avatar: "#{Rails.root}/spec/fixtures/avatar.png"
-      
-    )
+    customer = create(:customer)
 
     visit(customer_path(customer.id))
     expect(page).to have_content(customer.name)
@@ -56,28 +48,55 @@ feature "Customers", type: :feature do
   end
 
   scenario 'Testando index' do 
-    customer1 = Customer.create!(
-      name: Faker::Name.name,
-      email: Faker::Internet.email,
-      phone: Faker::PhoneNumber.phone_number,
-      smoker: ['S', 'N'].sample,
-      avatar: Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/avatar.png", 'image/png')
-      #avatar: "#{Rails.root}/spec/fixtures/avatar.png"
-    )
+    customer1 = create(:customer)
 
-    customer2 = Customer.create!(
-      name: Faker::Name.name,
-      email: Faker::Internet.email,
-      phone: Faker::PhoneNumber.phone_number,
-      smoker: ['S', 'N'].sample,
-      avatar: Rack::Test::UploadedFile.new("#{Rails.root}/spec/fixtures/avatar.png", 'image/png')
-      #avatar: "#{Rails.root}/spec/fixtures/avatar.png"
-    )
+    customer2 = create(:customer)
 
     visit(customers_path)
     expect(page).to have_content(customer1.name).and have_content(customer2.name)
 
+  end
+
+  scenario 'Atualiza um cliente' do
+    customer = create(:customer)
+
+    new_name = Faker::Name.name
+    visit(edit_customer_path(customer.id))
+    fill_in('Nome', with: new_name)
+    click_on 'Atualizar Cliente'
+    expect(page).to have_content('Cliente atualizado com sucesso!')
+    expect(page).to have_content(new_name)
 
   end
+
+  scenario 'Clica no link Mostrar' do
+    customer = create(:customer)
+
+    visit(customers_path)
+    find(:xpath, "/html/body/table/tbody/tr[1]/td[2]/a").click
+    expect(page).to have_content("Mostrando cliente")
+  end
+
+  scenario 'Clica no link Editar da Index' do
+    customer = create(:customer)
+
+    visit(customers_path)
+    find(:xpath, "/html/body/table/tbody/tr[1]/td[3]/a").click
+    expect(page).to have_content("Editando Cliente")
+  end
+
+  scenario 'Apaga o cliente', js: true do
+    customer = create(:customer)
+
+    visit(customers_path)
+    find(:xpath, "/html/body/table/tbody/tr[1]/td[4]/a").click
+    1.second
+    page.driver.browser.switch_to.alert.accept
+    expect(page).to have_content('Cliente excluído com sucesso!')
+    
+  end
+
+  
+
 
 end
