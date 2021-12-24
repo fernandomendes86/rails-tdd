@@ -1,0 +1,3 @@
+[submodule "tdd_app4"]
+	path = tdd_app4
+	url = https://github.com/fernandomendes86/rails-tdd.git
